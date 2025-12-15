@@ -3,15 +3,17 @@ import discord
 import asyncio
 import random
 
-# Bot-Token kommt aus der Render Environment Variable
+# Bot-Token aus Render Environment Variable
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Alle Channel-IDs (5 Server / 5 Channels)
+# ALLE Channel-IDs
 CHANNEL_IDS = [
-    1450076102188863640,
     1450051131811041280,
+    1450076102188863640,
     1450076267918528553,
+    1450076352316309534,
     1450076466103586888,
+    1450076519874564096,
     1450076651777163355
 ]
 
@@ -30,6 +32,7 @@ async def send_periodic_message():
     while not client.is_closed():
         for channel_id in CHANNEL_IDS:
             channel = client.get_channel(channel_id)
+
             if channel:
                 try:
                     await channel.send(MESSAGE)
