@@ -8,7 +8,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 
 # ALLE Channel-IDs
 CHANNEL_IDS = [
-    1450051131811041280,
+    1451665069460033617,   # ← neue ID (ersetzt die alte)
     1450076102188863640,
     1450076267918528553,
     1450076352316309534,
@@ -51,3 +51,4 @@ async def on_ready():
     asyncio.create_task(send_periodic_message())
 
 client.run(TOKEN)
+
