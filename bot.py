@@ -3,18 +3,19 @@ import discord
 import asyncio
 import random
 
-# Bot-Token aus Render Environment Variable
+# Token kommt aus Render Environment Variable
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# ALLE Channel-IDs
+# ✅ ALLE Channel-IDs HIER EINTRAGEN
 CHANNEL_IDS = [
-    1451665069460033617,   # ← neue ID (ersetzt die alte)
+    1450051131811041280,
     1450076102188863640,
     1450076267918528553,
     1450076352316309534,
     1450076466103586888,
     1450076519874564096,
-    1450076651777163355
+    1450076651777163355,
+    1451881109104365599  # <-- NEUER CHANNEL
 ]
 
 intents = discord.Intents.default()
@@ -26,29 +27,38 @@ MESSAGE = (
     "Sichere dir jetzt deinen Zugang!"
 )
 
-async def send_periodic_message():
+async def send_periodic_messages():
     await client.wait_until_ready()
 
+    channels = []
+    for cid in CHANNEL_IDS:
+        channel = client.get_channel(cid)
+        if channel:
+            channels.append(channel)
+        else:
+            print(f"❌ Channel nicht gefunden: {cid}")
+
+    if not channels:
+        print("❌ KEINE Channels gefunden – prüfe IDs & Bot-Rechte")
+        return
+
+    print(f"✅ {len(channels)} Channels aktiv")
+
     while not client.is_closed():
-        for channel_id in CHANNEL_IDS:
-            channel = client.get_channel(channel_id)
+        for channel in channels:
+            try:
+                await channel.send(MESSAGE)
+                print(f"📨 Nachricht gesendet in #{channel.id}")
+            except Exception as e:
+                print(f"❌ Fehler in {channel.id}: {e}")
 
-            if channel:
-                try:
-                    await channel.send(MESSAGE)
-                except Exception as e:
-                    print(f"❌ Fehler in Channel {channel_id}: {e}")
-            else:
-                print(f"❌ Channel nicht gefunden: {channel_id}")
-
-        # 3–4 Minuten warten
+        # ⏱️ 3–4 Minuten warten
         wait_time = random.randint(180, 240)
         await asyncio.sleep(wait_time)
 
 @client.event
 async def on_ready():
     print(f"✅ Bot ist online als {client.user}")
-    asyncio.create_task(send_periodic_message())
+    client.loop.create_task(send_periodic_messages())
 
 client.run(TOKEN)
-
