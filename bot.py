@@ -15,8 +15,10 @@ CHANNEL_IDS = [
     1450076466103586888,
     1450076519874564096,
     1450076651777163355,
-    1451881109104365599  # <-- NEUER CHANNEL
+    1451881109104365599,
+    1452290446549057617  # <-- NEU HINZUGEFÜGT
 ]
+
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -62,3 +64,4 @@ async def on_ready():
     client.loop.create_task(send_periodic_messages())
 
 client.run(TOKEN)
+
