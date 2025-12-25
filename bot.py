@@ -17,7 +17,7 @@ CHANNEL_IDS = [
     1450076651777163355,
     1451881109104365599,
     1452290446549057617,
-    1453526923195056222  # <-- NEU HINZUGEFÜGT
+    1453668052980994110  # <-- NEU HINZUGEFÜGT
 ]
 
 
@@ -65,6 +65,7 @@ async def on_ready():
     client.loop.create_task(send_periodic_messages())
 
 client.run(TOKEN)
+
 
 
 
